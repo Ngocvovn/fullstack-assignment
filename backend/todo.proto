@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package todo;
+
+service db {
+   rpc insert (Todo) returns (Todo) {};
+   rpc get (TodoId) returns (TodoList) {};
+   rpc delete (TodoId) returns (TodoList) {};
+}
+
+message Todo {
+    string id = 1;
+    string payload = 2;
+}
+
+message TodoId {
+    string id = 1;
+}
+
+message TodoList {
+  repeated Todo todoList = 1;
+}

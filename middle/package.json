@@ -1,0 +1,19 @@
+{
+  "name": "middle",
+  "version": "6.6.6",
+  "description": "assignment for super candidate",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "node-dev --respawn index.js"
+  },
+  "author": "Spectral Engines Oy",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^0.5.3",
+    "@grpc/proto-loader": "^0.5.2",
+    "jest": "^24.9.0",
+    "node-dev": "^4.0.0",
+    "ulid": "^2.3.0"
+  }
+}
