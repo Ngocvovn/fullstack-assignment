@@ -27,6 +27,19 @@ describe("emitter", () => {
   });
 
   describe("Emitter.on", () => {
+    // more tests
+    it.only("should throw error when event name is invalid", () => {
+      const noEventName = () => {
+        return Emitter.on(null, subscriberOne);
+      };
+      expect(noEventName).toThrow("eventName is required");
+
+      const objectEventName = () => {
+        return Emitter.on({}, subscriberOne);
+      };
+      expect(objectEventName).toThrow("event name needs to be string");
+    });
+
     it("should subscribe to an event name and be called when triggered", () => {
       Emitter.on(ONE, subscriberOne);
       Emitter.trigger(ONE);
