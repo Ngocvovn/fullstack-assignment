@@ -50,7 +50,9 @@ const todo = (state: State = initialState, action: Actions) => {
       return {
         ...state,
         loading: false,
-        todoList: action.payload
+        todoList: state.todoList.filter(
+          (todo: Todo) => todo.id !== action.payload
+        )
       };
 
     default:

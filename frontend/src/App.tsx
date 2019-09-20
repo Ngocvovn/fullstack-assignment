@@ -6,18 +6,50 @@ import { TodoItem } from "./components/todoItem";
 import { Todo } from "./types";
 
 class App extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = { description: "" };
+    this.handleChange = this.handleChange.bind(this);
+  }
   componentDidMount() {
     this.props.actions.getTodoList();
   }
 
-  render() {
-    console.log(this.props);
+  handleChange(event: any) {
+    this.setState({ description: event.target.value });
+  }
 
+  render() {
     return (
       <div>
         {this.props.todo.todoList.map((todoItem: Todo, i: number) => (
-          <TodoItem todo={todoItem} delete={this.props.deleteTodo.bind(this)} />
+          <TodoItem
+            key={i}
+            todo={todoItem}
+            delete={this.props.actions.deleteTodo.bind(this)}
+          />
         ))}
+
+        <div>
+          <h2>Create to do item</h2>
+
+          <label>
+            Name:
+            <input
+              type="text"
+              value={this.state.description}
+              onChange={this.handleChange}
+            />
+          </label>
+          <button
+            onClick={() => {
+              this.props.actions.createTodo(this.state.description);
+              this.setState({ description: "" });
+            }}
+          >
+            Submit
+          </button>
+        </div>
       </div>
     );
   }

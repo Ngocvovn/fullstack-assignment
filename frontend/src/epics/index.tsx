@@ -4,7 +4,6 @@ import { ofType, combineEpics } from "redux-observable";
 import * as actions from "../actions";
 import { CONFIG } from "../config";
 import { GET_TODO_LIST, CREATE_TODO, DELETE_TODO } from "../constants";
-import { Todo } from "../types";
 import { of } from "rxjs";
 
 // every action that is contained in the stream returned from the epic is dispatched to Redux, this is why we map the actions to streams.
@@ -18,12 +17,10 @@ function getTodoListEpic(action$: any) {
       () => {
         // ajax calls from Observable return observables.
         return ajax
-          .getJSON(CONFIG.API_URL + "/todo") // getJSON simply sends a GET request with Content-Type application/json
+          .get(CONFIG.API_URL + "/todo") // getJSON simply sends a GET request with Content-Type application/json
           .pipe(
             map((data: any) => {
-              console.log(data);
-
-              return actions.getTodoListSuccess(data.payload);
+              return actions.getTodoListSuccess(data.response);
             }),
             catchError(error => of(error))
           );
@@ -39,10 +36,14 @@ function createTodoEpic(action$: any) {
     ofType(CREATE_TODO),
     switchMap((action: actions.CreateTodo) => {
       return ajax
-        .post(CONFIG.API_URL + "/todo", { payload: action.payload })
+        .post(
+          CONFIG.API_URL + "/todo",
+          { payload: action.payload },
+          { "Content-Type": "application/json" }
+        )
         .pipe(
           map((data: any) => {
-            return actions.createTodoSuccess(data.payload);
+            return actions.createTodoSuccess(data.response);
           }),
           catchError(error => of(error))
         );
@@ -56,7 +57,7 @@ function deleteTodoEpic(action$: any) {
     switchMap((action: actions.CreateTodo) => {
       return ajax.delete(CONFIG.API_URL + "/todo/" + action.payload).pipe(
         map((data: any) => {
-          return actions.deleteTodoSuccess(data.payload);
+          return actions.deleteTodoSuccess(action.payload);
         }),
         catchError(error => of(error))
       );

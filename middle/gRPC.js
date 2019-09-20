@@ -56,7 +56,7 @@ server.addService(todoProto.todo.db.service, {
   insert: (call, callback) => {
     const id = ulid();
     Emitter.on(`todo-${id}-written`, payload => {
-      callback(null, { payload });
+      callback(null, { id, payload });
     });
     const { payload } = call.request;
     write({ id, payload })

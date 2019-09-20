@@ -54,7 +54,7 @@ export interface DeleteTodo {
 
 export interface DeleteTodoSuccess {
   type: constants.DELETE_TODO_SUCCESS;
-  payload: Todo[];
+  payload: string;
 }
 
 export function deleteTodo(id: string): DeleteTodo {
@@ -64,10 +64,10 @@ export function deleteTodo(id: string): DeleteTodo {
   };
 }
 
-export function deleteTodoSuccess(todoList: Todo[]): DeleteTodoSuccess {
+export function deleteTodoSuccess(id: string): DeleteTodoSuccess {
   return {
     type: constants.DELETE_TODO_SUCCESS,
-    payload: todoList
+    payload: id
   };
 }
 
