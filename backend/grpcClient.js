@@ -29,9 +29,6 @@ const loadProtoFile = file => {
 const todoProto = path.join(__dirname, "todo.proto");
 const dbService = loadProtoFile(todoProto).todo.db;
 
-const client = new dbService(
-  "localhost:50051",
-  grpc.credentials.createInsecure()
-);
+const client = new dbService("middle:50051", credentials);
 
 module.exports = client;

@@ -89,15 +89,11 @@ const credentials = grpc.ServerCredentials.createSsl(
 );
 
 const start = (port = 50051) => {
-  server.bindAsync(
-    `0.0.0.0:${port}`,
-    grpc.ServerCredentials.createInsecure(),
-    (err, bondPort) => {
-      err && console.error(`middle service grpc binding error ${err}`);
-      server.start();
-      !err && console.info(`middle service grpc started, port ${bondPort}`);
-    }
-  );
+  server.bindAsync(`0.0.0.0:${port}`, credentials, (err, bondPort) => {
+    err && console.error(`middle service grpc binding error ${err}`);
+    server.start();
+    !err && console.info(`middle service grpc started, port ${bondPort}`);
+  });
 };
 
 module.exports = { start };
