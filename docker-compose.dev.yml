@@ -1,7 +1,9 @@
 version: "3"
 services:
   middle:
-    build: ./middle/
+    build:
+      context: ./middle
+      dockerfile: Dockerfile.dev
     volumes:
       - ./middle/:/app
       - /app/node_modules
@@ -9,11 +11,23 @@ services:
       - NODE_ENV=development
 
   backend:
-    build: ./backend/
-    ports:
-      - 3000:3000
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
     volumes:
       - ./backend/:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+
+  frontend:
+    build: ./frontend/
+    ports:
+      - 3006:3006
+    volumes:
+      - ./frontend/:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
