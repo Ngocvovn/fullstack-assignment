@@ -6,7 +6,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 //enable redux dev tool
 const composeEnhancers = composeWithDevTools({});
-const epicMiddleware = createEpicMiddleware();
+export const epicMiddleware = createEpicMiddleware();
 export default function configureStore() {
   const store = createStore(
     rootReducer,

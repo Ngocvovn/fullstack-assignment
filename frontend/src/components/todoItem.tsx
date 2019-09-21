@@ -1,10 +1,11 @@
 import React from "react";
 import { Todo } from "../types";
 
-type TodoProps = {
+export type TodoProps = {
   todo: Todo;
   delete: (id: string) => void;
 };
+
 export const TodoItem: React.FC<any> = (props: TodoProps) => {
   return (
     <div>

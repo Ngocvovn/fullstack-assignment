@@ -42,6 +42,7 @@ class App extends React.Component<any, any> {
             />
           </label>
           <button
+            disabled={!this.state.description}
             onClick={() => {
               this.props.actions.createTodo(this.state.description);
               this.setState({ description: "" });
