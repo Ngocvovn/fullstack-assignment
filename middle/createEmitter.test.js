@@ -28,7 +28,7 @@ describe("emitter", () => {
 
   describe("Emitter.on", () => {
     // more tests
-    it.only("should throw error when event name is invalid", () => {
+    it("should throw error when event name is invalid", () => {
       const noEventName = () => {
         return Emitter.on(null, subscriberOne);
       };
@@ -38,6 +38,18 @@ describe("emitter", () => {
         return Emitter.on({}, subscriberOne);
       };
       expect(objectEventName).toThrow("event name needs to be string");
+    });
+
+    it("should throw error when listener is invalid", () => {
+      const noListener = () => {
+        return Emitter.on(ONE, null);
+      };
+      expect(noListener).toThrow("listener is required");
+
+      const objectListener = () => {
+        return Emitter.on(ONE, {});
+      };
+      expect(objectListener).toThrow("listener needs to be a function");
     });
 
     it("should subscribe to an event name and be called when triggered", () => {

@@ -4,7 +4,7 @@ package todo;
 
 service db {
    rpc insert (Todo) returns (Todo) {};
-   rpc get (TodoId) returns (TodoList) {};
+   rpc get (TodoListRequest) returns (TodoList) {};
    rpc delete (TodoId) returns (TodoList) {};
 }
 
@@ -20,3 +20,5 @@ message TodoId {
 message TodoList {
   repeated Todo todoList = 1;
 }
+
+message TodoListRequest {}
