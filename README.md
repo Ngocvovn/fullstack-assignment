@@ -18,7 +18,7 @@ For "super" full-stack developer who can do everyting, please do all tasks (esti
 # Solution
 
 1. Have completed and also add some tests for throwing error cases
-2. I was not able to find the set up and mocking that I think is suitable for the testing purpose, but I manually tested it.
+2. Have written tests for grpc client
 3. Have completed but using React, Typescript, Redux, Redux-observable, Enzyme and Jest for testing
 4. I only done the docker compose file for local development, also added the production Dockerfile for backend and middler services
 

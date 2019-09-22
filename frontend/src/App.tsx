@@ -23,26 +23,7 @@ class App extends React.Component<any, any> {
   render() {
     return (
       <div className="container">
-        <h2 className="py-5">To do list</h2>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Description</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.todo.todoList.map((todoItem: Todo, i: number) => (
-              <TodoItem
-                key={i}
-                todo={todoItem}
-                delete={this.props.actions.deleteTodo.bind(this)}
-              />
-            ))}
-          </tbody>
-        </table>
-        <div className="py-5">
+        <div className="pt-5">
           <h2 className="pb-3">Create to do item</h2>
 
           <Form>
@@ -68,6 +49,26 @@ class App extends React.Component<any, any> {
             </button>
           </Form>
         </div>
+
+        <h2 className="py-5">To do list</h2>
+        <table className="table mb-5">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Description</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.todo.todoList.map((todoItem: Todo, i: number) => (
+              <TodoItem
+                key={i}
+                todo={todoItem}
+                delete={this.props.actions.deleteTodo.bind(this)}
+              />
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }

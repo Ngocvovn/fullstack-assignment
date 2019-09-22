@@ -14,14 +14,14 @@ describe("SharedButton Component", () => {
   });
 
   it("renders todo item", () => {
-    expect(wrapper.find("p")).toBeDefined();
-    expect(wrapper.find("p")).toHaveLength(2);
+    expect(wrapper.find("td")).toBeDefined();
+    expect(wrapper.find("td")).toHaveLength(3);
   });
 
   it("renders correct text in item", () => {
     //Expect the child of the first item to be an array
-    expect(wrapper.find("p").get(0).props.children).toEqual(todo.id);
-    expect(wrapper.find("p").get(1).props.children).toEqual(todo.payload);
+    expect(wrapper.find("td").get(0).props.children).toEqual(todo.id);
+    expect(wrapper.find("td").get(1).props.children).toEqual(todo.payload);
   });
 
   it("Should emit callback on click event", () => {
