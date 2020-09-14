@@ -8,30 +8,24 @@ import { of } from "rxjs";
 
 // every action that is contained in the stream returned from the epic is dispatched to Redux, this is why we map the actions to streams.
 // if an error occurs, create an Observable of the action to be dispatched on error. Unlike other operators, catch does not explicitly return an Observable.
-function getTodoListEpic(action$: any) {
+export function getTodoListEpic(action$: any, ajax: any) {
   // action$ is a stream of actions
   // action$.ofType is the outer Observable
   return action$.pipe(
     ofType(GET_TODO_LIST),
-    switchMap(
-      () => {
-        // ajax calls from Observable return observables.
-        return ajax
-          .get(CONFIG.API_URL + "/todo") // getJSON simply sends a GET request with Content-Type application/json
-          .pipe(
-            map((data: any) => {
-              return actions.getTodoListSuccess(data.response);
-            }),
-            catchError(error => of(error))
-          );
-      }
-      // get the data and extract only the results
-    )
+    switchMap(() => {
+      // ajax calls from Observable return observables.
+      return ajax.get(CONFIG.API_URL + "/todo").pipe(
+        map((data: any) => {
+          return actions.getTodoListSuccess(data.response);
+        }),
+        catchError(error => of(error))
+      );
+    })
   );
-  // at the end our inner Observable has a stream of an array of whisky objects which will be merged into the outer Observable
 }
 
-function createTodoEpic(action$: any) {
+export function createTodoEpic(action$: any, ajax: any) {
   return action$.pipe(
     ofType(CREATE_TODO),
     switchMap((action: actions.CreateTodo) => {
@@ -51,7 +45,7 @@ function createTodoEpic(action$: any) {
   );
 }
 
-function deleteTodoEpic(action$: any) {
+export function deleteTodoEpic(action$: any, ajax: any) {
   return action$.pipe(
     ofType(DELETE_TODO),
     switchMap((action: actions.CreateTodo) => {
@@ -65,8 +59,5 @@ function deleteTodoEpic(action$: any) {
   );
 }
 
-export const rootEpic = combineEpics(
-  getTodoListEpic,
-  createTodoEpic,
-  deleteTodoEpic
-);
+export const rootEpic = (actions: any) =>
+  combineEpics(getTodoListEpic, createTodoEpic, deleteTodoEpic)(actions, ajax);

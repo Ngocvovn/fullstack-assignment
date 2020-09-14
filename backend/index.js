@@ -22,6 +22,10 @@ app.use(function(req, res, next) {
 
 app.use("/v1", require("./routes"));
 
+app.use("/hello", (req, res, next) => {
+  res.send("Hello");
+});
+
 app.listen(port, () => {
   console.log("backend running at port " + port);
 });

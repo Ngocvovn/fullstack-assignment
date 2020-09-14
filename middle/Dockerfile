@@ -4,7 +4,7 @@ FROM node:12-alpine
 RUN mkdir -p /app
 WORKDIR /app
 
-ENV NODE_ENV ${NODE_ENV:-development}
+ENV NODE_ENV ${NODE_ENV:-production}
 # Install dependencies
 COPY package.json .
 COPY package-lock.json .
@@ -15,4 +15,4 @@ COPY . .
 
 # Exports
 EXPOSE 50051
-CMD [ "npm", "run", "dev" ]
+CMD [ "node", "index.js" ]
