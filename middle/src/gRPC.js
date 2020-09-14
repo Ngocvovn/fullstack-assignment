@@ -77,16 +77,7 @@ server.addService(todoProto.todo.db.service, {
   }
 });
 
-const credentials = grpc.ServerCredentials.createSsl(
-  fs.readFileSync("./keys/grpc_root_ca.crt"),
-  [
-    {
-      private_key: fs.readFileSync("./keys/middle.key"),
-      cert_chain: fs.readFileSync("./keys/middle.crt")
-    }
-  ],
-  true
-);
+const credentials = grpc.credentials.createInsecure();
 
 const start = (port = 50051) => {
   server.bindAsync(`0.0.0.0:${port}`, credentials, (err, bondPort) => {

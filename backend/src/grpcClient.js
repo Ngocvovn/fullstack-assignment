@@ -11,15 +11,7 @@ const protoLoaderOptions = {
   objects: true
 };
 
-const rootCACert = fs.readFileSync("./keys/grpc_root_ca.crt");
-const clientKey = fs.readFileSync("./keys/backend.key");
-const clientCert = fs.readFileSync("./keys/backend.crt");
-
-const credentials = grpc.credentials.createSsl(
-  rootCACert,
-  clientKey,
-  clientCert
-);
+const credentials = grpc.credentials.createInsecure();
 
 const loadProtoFile = file => {
   const packageDefinition = loader.loadSync(file, protoLoaderOptions);

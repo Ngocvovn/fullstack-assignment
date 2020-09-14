@@ -1,0 +1,12 @@
+FROM node:12-alpine
+
+WORKDIR /home/ubuntu/frontend
+
+COPY package.json package-lock.json tsconfig.json ./
+
+# Install dependencies
+RUN npm install --silent
+
+# Exports
+EXPOSE 3006
+CMD [ "npm", "start" ]

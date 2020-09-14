@@ -1,17 +1,10 @@
 FROM node:12-alpine
 
-# Create app directory
-RUN mkdir -p /app
-WORKDIR /app
+WORKDIR /home/ubuntu/middle
+COPY package.json . package-lock.json ./
 
-ENV NODE_ENV ${NODE_ENV:-development}
 # Install dependencies
-COPY package.json .
-COPY package-lock.json .
-RUN npm install
-
-# Bundle app source
-COPY . .
+RUN npm install --silent
 
 # Exports
 EXPOSE 50051

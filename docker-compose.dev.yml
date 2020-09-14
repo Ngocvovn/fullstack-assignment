@@ -5,8 +5,7 @@ services:
       context: ./middle
       dockerfile: Dockerfile.dev
     volumes:
-      - ./middle/:/app
-      - /app/node_modules
+      - ./middle/src:/home/ubuntu/middle/src
     environment:
       - NODE_ENV=development
 
@@ -15,19 +14,20 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     volumes:
-      - ./backend/:/app
-      - /app/node_modules
+      - ./backend/src:/home/ubuntu/backend/src
     ports:
       - 3000:3000
     environment:
       - NODE_ENV=development
 
   frontend:
-    build: ./frontend/
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     ports:
       - 3006:3006
     volumes:
-      - ./frontend/:/app
-      - /app/node_modules
+      - ./frontend/src:/home/ubuntu/frontend/src
+      - ./frontend/public:/home/ubuntu/frontend/public
     environment:
       - NODE_ENV=development
