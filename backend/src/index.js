@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // Website you wish to allow to connect
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3006");
 
@@ -20,7 +20,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use("/v1", require("./routes"));
+app.use("/api/v1", require("./routes"));
 
 app.use("/hello", (req, res, next) => {
   res.send("Hello");

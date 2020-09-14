@@ -6,7 +6,7 @@ export type TodoProps = {
   delete: (id: string) => void;
 };
 
-export const TodoItem: React.FC<any> = (props: TodoProps) => {
+export const TodoItem: React.FC<TodoProps> = (props) => {
   return (
     <tr>
       <td>{props.todo.id}</td>

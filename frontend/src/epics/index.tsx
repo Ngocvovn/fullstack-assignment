@@ -1,32 +1,35 @@
 import { ajax } from "rxjs/ajax";
 import { switchMap, map, catchError } from "rxjs/operators";
-import { ofType, combineEpics } from "redux-observable";
+import { ofType, combineEpics, ActionsObservable, Epic } from "redux-observable";
 import * as actions from "../actions";
 import { CONFIG } from "../config";
 import { GET_TODO_LIST, CREATE_TODO, DELETE_TODO } from "../constants";
 import { of } from "rxjs";
+import { Action } from "redux";
+import { Todo } from "../types";
 
 // every action that is contained in the stream returned from the epic is dispatched to Redux, this is why we map the actions to streams.
 // if an error occurs, create an Observable of the action to be dispatched on error. Unlike other operators, catch does not explicitly return an Observable.
-export function getTodoListEpic(action$: any, ajax: any) {
+export const getTodoListEpic: Epic<Action> = (action$) =>
   // action$ is a stream of actions
-  // action$.ofType is the outer Observable
-  return action$.pipe(
+  action$.pipe(
     ofType(GET_TODO_LIST),
     switchMap(() => {
       // ajax calls from Observable return observables.
       return ajax.get(CONFIG.API_URL + "/todo").pipe(
-        map((data: any) => {
+        map((data: { response: Todo[] }) => {
           return actions.getTodoListSuccess(data.response);
         }),
         catchError(error => of(error))
       );
     })
   );
-}
 
-export function createTodoEpic(action$: any, ajax: any) {
+
+// ofType causes typing problem, should probably change to import { isOfType } from 'typesafe-actions';
+export const createTodoEpic = (action$: any) => {
   return action$.pipe(
+    // action$.ofType is the outer Observable
     ofType(CREATE_TODO),
     switchMap((action: actions.CreateTodo) => {
       return ajax
@@ -36,7 +39,7 @@ export function createTodoEpic(action$: any, ajax: any) {
           { "Content-Type": "application/json" }
         )
         .pipe(
-          map((data: any) => {
+          map((data: { response: Todo }) => {
             return actions.createTodoSuccess(data.response);
           }),
           catchError(error => of(error))
@@ -45,12 +48,12 @@ export function createTodoEpic(action$: any, ajax: any) {
   );
 }
 
-export function deleteTodoEpic(action$: any, ajax: any) {
+const deleteTodoEpic = (action$: any) => {
   return action$.pipe(
     ofType(DELETE_TODO),
     switchMap((action: actions.CreateTodo) => {
       return ajax.delete(CONFIG.API_URL + "/todo/" + action.payload).pipe(
-        map((data: any) => {
+        map(() => {
           return actions.deleteTodoSuccess(action.payload);
         }),
         catchError(error => of(error))
@@ -59,5 +62,5 @@ export function deleteTodoEpic(action$: any, ajax: any) {
   );
 }
 
-export const rootEpic = (actions: any) =>
-  combineEpics(getTodoListEpic, createTodoEpic, deleteTodoEpic)(actions, ajax);
+export const rootEpic = (actions: ActionsObservable<Action<any>>) =>
+  combineEpics(getTodoListEpic, createTodoEpic, deleteTodoEpic)(actions);
